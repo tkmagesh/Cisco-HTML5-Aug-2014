@@ -20,15 +20,45 @@
 	}
 	</style>
 	<script type="text/javascript">
+	/*
+	Local Storage => window.localStorage
+	
+	key & value => string
+
+	void setItem(key,value)
+	value getItem(key)
+	void removeIte(key)
+	clear()
+	key key(index)
+	length 
+
+	*/
+	var storage = window.localStorage;
 	window.addEventListener("DOMContentLoaded", init);
 	function init(){
 		document.getElementById("btnAdd").addEventListener("click", onBtnAddClick);
 		document.getElementById("btnRemoveCompleted").addEventListener("click", onBtnRemoveCompletedClick);
+
+		loadTasksFromStorage();
+	}
+	function loadTasksFromStorage(){
+		for(var i=0;i<storage.length;i++){
+			var taskId = storage.key(i);
+			var taskName = storage.getItem(taskId);
+			addTaskToList(taskId,taskName);
+		}
 	}
 	function onBtnAddClick(){
 		var task = document.getElementById("txtTask").value;
+		// persist in storage
+		var newTaskId = new Date().getTime().toString();
+		storage.setItem(newTaskId, task);
+		addTaskToList(newTaskId,task);
+	}
+	function addTaskToList(taskId, taskName){
 		var newTaskItem = document.createElement("li");
-		newTaskItem.innerHTML = task;
+		newTaskItem.setAttribute("task-id", taskId);
+		newTaskItem.innerHTML = taskName;
 		newTaskItem.addEventListener("click", onTaskItemClick);
 		document.getElementById("olTaskList").appendChild(newTaskItem);
 	}
@@ -36,10 +66,14 @@
 		this.classList.toggle("completed");
 	}
 	function onBtnRemoveCompletedClick(){
-		var taskItems = document.getElementById("olTaskList").children;
+		var taskList = document.getElementById("olTaskList");
+		var taskItems = taskList.children;
 		for(var i=taskItems.length-1;i>=0;i--){
-			if (taskItems[i].classList.contains("completed"))
-				taskItems[i].remove();
+			if (taskItems[i].classList.contains("completed")){
+				var taskId = taskItems[i].getAttribute("task-id");
+				storage.removeItem(taskId);
+				taskList.removeChild(taskItems[i]);
+			}
 		}
 	}
 	</script>
