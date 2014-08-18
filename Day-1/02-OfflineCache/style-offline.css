@@ -1,0 +1,19 @@
+h1{
+		border-top : 2px solid red;
+		border-bottom : 2px solid red;
+		background-color: lightpink;
+		padding-top: 10px;
+		padding-bottom: 10px;
+
+	}
+
+#btnRemoveCompleted {
+	display : none;
+}
+
+.online{
+	display : none;
+}
+.offline {
+	display : block;
+}

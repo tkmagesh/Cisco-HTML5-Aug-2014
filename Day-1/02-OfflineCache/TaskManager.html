@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" manifest="app.manifest">
+<head>
+	<meta charset="UTF-8">
+	<title>Task Manager</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="style-online.css">
+	<script src="TaskManager.js"></script>
+	<script type="text/javascript">
+	applicationCache.addEventListener("updateready", onUpdateReady);
+	function onUpdateReady(){
+		var result = confirm("A new version of the application is availalble. Do you want to use it?")
+		if (result){
+			window.location.reload();
+		}
+	}
+	</script>
+</head>
+<body>
+	<h1>Task Manager - Ver 2.0</h1>
+	<span>Task :</span>
+	<input type="text" name="" id="txtTask">
+	<input type="button" value="Add Task" id="btnAdd">
+	<input type="button" value="Remove Completed" id="btnRemoveCompleted">
+	<ol id="olTaskList">
+		
+	</ol>
+	
+	<div class="online status">
+		*Online
+	</div>
+	<div class="offline status">
+		*Offline
+	</div>
+</body>
+</html>

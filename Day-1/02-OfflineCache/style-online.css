@@ -1,0 +1,15 @@
+h1{
+		border-top : 2px solid blue;
+		border-bottom : 2px solid blue;
+		background-color: lightblue;
+		padding-top: 10px;
+		padding-bottom: 10px;
+
+	}
+
+.online{
+	display : block;
+}
+.offline {
+	display : none;
+}
