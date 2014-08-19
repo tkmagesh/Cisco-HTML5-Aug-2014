@@ -5,25 +5,30 @@
 	<title>Web Workers - Demo</title>
 	<script>
 	window.addEventListener("DOMContentLoaded",init);
+	var workerTask;
 	function init(){
 		document.getElementById("btnDoWork").addEventListener("click", onBtnDoWorkClick);
+		
+		workerTask = new Worker("workerTask.js");
+		workerTask.addEventListener("message", onWorkerMessage);
 	}
 	function onBtnDoWorkClick(){
 		displayMessage("Work Started...");
 		//doWork();
-		var workerTask = new Worker("workerTask.js");
-		workerTask.addEventListener("message", function(msgEvtArg){
-			console.log(msgEvtArg.data);
-			var response = msgEvtArg.data;
-			if (response.type === "completion"){
-				displayMessage(response.message);
-			} else if (response.type === "progress"){
-				document.getElementById("progress").value = response.percentCompleted;
-			} else {
-				console.log("Unknown response received ", msgEvtArg);
-			}
-		});
+		workerTask.postMessage("start");
 		
+		
+	}
+	function onWorkerMessage(msgEvtArg){
+		console.log(msgEvtArg.data);
+		var response = msgEvtArg.data;
+		if (response.type === "completion"){
+			displayMessage(response.message);
+		} else if (response.type === "progress"){
+			document.getElementById("progress").value = response.percentCompleted;
+		} else {
+			console.log("Unknown response received ", msgEvtArg);
+		}
 	}
 
 	function displayMessage(msg){

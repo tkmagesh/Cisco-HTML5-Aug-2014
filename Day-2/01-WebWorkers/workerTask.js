@@ -13,9 +13,13 @@ function doWork(){
 		}
 		console.log("doWork Completed");
 }
-doWork();
-var response = {
-	type : "completion", 
-	message :"Worker completed at " + new Date().toString()
-};
-self.postMessage(response);
+self.addEventListener("message", function(msgEvtArg){
+	if (msgEvtArg.data === "start"){
+		doWork();
+		var response = {
+			type : "completion", 
+			message :"Worker completed at " + new Date().toString()
+		};
+		self.postMessage(response);
+	}
+});
